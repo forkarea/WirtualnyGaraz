@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- set the encoding of your site -->
+	<meta charset="utf-8">
+	<!-- set the viewport width and initial-scale on mobile devices -->
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- set the title of your site -->
+	<title>Fekra</title>
+	<!-- ========= Favicon Icons ========= -->
+	<link rel="shortcut icon" href="images/favicon/favicon.ico">
+	<!-- Standard iPhone Touch Icon-->
+	<link rel="apple-touch-icon" sizes="57x57" href="images/favicon/apple-touch-icon-57x57.png">
+	<!-- Retina iPhone Touch Icon-->
+	<link rel="apple-touch-icon" sizes="114x114" href="images/favicon/apple-touch-icon-114x114.png">
+	<!-- Standard iPad Touch Icon-->
+	<link rel="apple-touch-icon" sizes="72x72" href="images/favicon/apple-touch-icon-72x72.png">
+	<!-- Retina iPad Touch Icon-->
+	<link rel="apple-touch-icon" sizes="144x144" href="images/favicon/apple-touch-icon-144x144.png">
+	<!-- include Google fonts  -->
+	<link href='https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic%7CPlayfair+Display:400,400italic,700,700italic,900,900italic%7CRoboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900italic,900%7CRaleway:400,100,200,300,500,600,700,800,900%7CGreat+Vibes%7CPoppins:400,300,500,600,700' rel='stylesheet' type='text/css'>
+	<!-- include the site stylesheet of bootstrap  -->
+	<link rel="stylesheet" href="css/bootstrap.css">
+	<!-- include the font awesome stylesheet  -->
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<!-- include the stylesheets of headers and footer of the page  -->
+	<link rel="stylesheet" type="text/css" href="css/page-assets.css">
+	<!-- include the helping elements stylesheets of  the page  -->
+	<link rel="stylesheet" type="text/css" href="css/helper-elements.css">
+	<!-- include the site stylesheet  -->
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- include the site color stylesheet  -->
+	<link rel="stylesheet" type="text/css" href="css/color/color.css">
+    <!-- include the site animation stylesheet  -->
+    <link rel="stylesheet" href="css/animate.css" type="text/css" />
+</head>
+<body>
+	<!-- Page pre loader -->
+    <div id="pre-loader">
+        <div class="loader-holder">
+            <div class="frame">
+                <img src="images/preloader/logo.png" alt="Fekra"/>
+                <div class="spinner7">
+                    <div class="circ1"></div>
+                    <div class="circ2"></div>
+                    <div class="circ3"></div>
+                    <div class="circ4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- main container of all the page elements -->
+	<div id="wrapper">
+		<div class="w1">
+			<!-- header of the page -->
+			<header id="header" class="style23">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-xs-12">
+							<!-- page logo -->
+							<div class="logo">
+								<a href="#">
+									<img src="images/logo.png" alt="Fekra" class="img-responsive w-logo">
+									<img src="images/logo-2.png" alt="Fekra" class="img-responsive b-logo">
+								</a>
+							</div>
+							<!-- main navigation of the page -->
+							<nav id="nav">
+								<a href="#" class="nav-opener">
+									<span class="txt">Menu</span>
+									<i class="fa fa-bars"></i>
+								</a>
+								<div class="nav-holder">
+									<ul class="list-inline nav-top">
+										<li><a class="smoothanchor" href="#wrapper">Home</a></li>
+										<li><a class="smoothanchor" href="#section1">FEATURES</a></li>
+										<li><a class="smoothanchor" href="#section2">TESTIMONIALS</a></li>
+										<li><a class="smoothanchor" href="#section3">PRICING</a></li>
+										<li><a class="smoothanchor" href="#section4">GALLERY</a></li>
+										<li><a class="smoothanchor" href="#section5">NEWSLETTER</a></li>
+									</ul>
+								</div>
+							</nav>
+						</div>
+					</div>
+				</div>
+			</header>
+			<!-- contain main informative part of the site -->
+			<main id="main">
+				<!-- app mainbanner -->
+				<section class="app-mainbanner">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12 holder">
+								<h1>Sign up  <br>for Start <span class="add">Free Trail</span></h1>
+								<p>&amp; Get 30 Days Unlimited Access </p>
+								<form action="#" class="signup-form">
+									<fieldset>
+										<div class="frame">
+											<input type="text" placeholder="Your Name *">
+											<input type="email" placeholder="Your Email*">
+											<input type="password" placeholder="Password*">
+											<input type="password" placeholder="Confirm Password*">
+										</div>
+										<button class="btn btn-submit">START FREE TRAIL</button>
+									</fieldset>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="stretch">
+						<img alt="image description" src="http://placehold.it/1920x900" data-animate="fadeInUpRight" data-delay="300">
+					</div>
+				</section>
+				<!-- section -->
+				<section class="container padding-top-90 padding-bottom-90" id="section1">
+					<div class="row">
+						<div class="col-md-8 col-xs-12">
+                            <!-- page heading -->
+                            <header class="page-heading left-align">
+                                <div class="col-xs-12 col-sm-10">
+                                <h2 class="lime text-capitalize font-medium margin-bottom-20">Features Overview</h2>
+                                <p>Ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</p>
+                                </div>
+                            </header>
+							<ul class="list-unstyled margin-zero">
+								<!-- f iconbox -->
+								<li class="f-iconbox margin-bottom-30">
+									<span class="icon"><i class="fa fa-eye"></i></span>
+									<strong class="title">Retina Ready</strong>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry It has survived  the printing and typesetting industry It has survived not only five centuries, but also the leap into electroni  remaining essentially unchanged. </p>
+								</li>
+								<!-- f iconbox -->
+								<li class="f-iconbox margin-bottom-30">
+									<span class="icon"><i class="fa fa-money"></i></span>
+									<strong class="title">Cheap &amp; Fast</strong>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry It has survived  the printing and typesetting industry It has survived not only five centuries, but also the leap into electroni  remaining essentially unchanged. </p>
+								</li>
+								<!-- f iconbox -->
+								<li class="f-iconbox margin-bottom-30">
+									<span class="icon"><i class="fa fa-code"></i></span>
+									<strong class="title">Clean Code</strong>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry It has survived  the printing and typesetting industry It has survived not only five centuries, but also the leap into electroni  remaining essentially unchanged. </p>
+								</li>
+								<!-- f iconbox -->
+								<li class="f-iconbox margin-bottom-30">
+									<span class="icon"><i class="fa fa-paint-brush"></i></span>
+									<strong class="title">High Visual Design</strong>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry It has survived  the printing and typesetting industry It has survived not only five centuries, but also the leap into electroni  remaining essentially unchanged. </p>
+								</li>
+							</ul>
+						</div>
+						<div class="col-sm-4 col-xs-12 hidden-sm hidden-xs">
+							<img src="http://placehold.it/350x690" alt="image description" class="img" data-animate="fadeInRight" data-delay="250">
+						</div>
+					</div>
+				</section>
+				<!-- testimon section -->
+				<div class="testimon-section padding-top-100 padding-bottom-100" id="section2">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12">
+								<span class="icon"><i class="fa fa-quote-left"></i></span>
+								<div class="beans-slider" data-rotate="true">
+									<div class="beans-mask">
+										<div class="beans-slideset">
+											<!-- beans-slide 1 -->
+											<div class="beans-slide">
+												<blockquote>
+													<q>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus Nam libero tempore, cum soluta nobis est eligendi optio.</q>
+												</blockquote>
+											</div>
+											<!-- beans-slide 2 -->
+											<div class="beans-slide">
+												<blockquote>
+													<q>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus Nam libero tempore, cum soluta nobis est eligendi optio.</q>
+												</blockquote>
+											</div>
+											<!-- beans-slide 3 -->
+											<div class="beans-slide">
+												<blockquote>
+													<q>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus Nam libero tempore, cum soluta nobis est eligendi optio.</q>
+												</blockquote>
+											</div>
+										</div>
+									</div>
+									<div class="beans-pagination">
+										<!-- pagination generated here -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- parallax-holder -->
+					<div class="parallax-holder">
+						<div class="parallax-frame"><img src="http://placehold.it/1920x800" height="800" width="1920" alt="image description"></div>
+					</div>
+				</div>
+				<!-- price section style2 -->
+				<section class="price-section style2" id="section3">
+					<div class="container">
+                        <!-- page heading -->
+                        <header class="page-heading">
+                            <h2 class="lime text-capitalize font-medium margin-bottom-20">Pricing Table</h2>
+                            <p>Ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</p>
+                        </header>
+						<div class="row">
+							<div class="col-xs-12 col-sm-6 col-md-3">
+								<!-- box -->
+								<div class="box" data-animate="fadeInUp" data-delay="100">
+									<strong class="heading">Standard</strong>
+									<span class="price"><sup>$</sup> 3.99</span>
+									<span class="month">Per month</span>
+									<ul class="list-unstyled price-list">
+										<li>Unlimited Bandwidth</li>
+										<li>100 GB Space</li>
+										<li>10 Databases</li>
+										<li>Free Ad Credits</li>
+										<li>2 Month Support</li>
+										<li>Unlimate File Access</li>
+									</ul>
+									<a href="http://fekra.csshunter.com" class="btn btn-purchase">PURCHASE NOW</a>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-3">
+								<!-- box -->
+								<div class="box" data-animate="fadeInUp" data-delay="150">
+									<strong class="heading">Business</strong>
+									<span class="price"><sup>$</sup> 9.99</span>
+									<span class="month">Per month</span>
+									<ul class="list-unstyled price-list">
+										<li>Unlimited Bandwidth</li>
+										<li>100 GB Space</li>
+										<li>10 Databases</li>
+										<li>Free Ad Credits</li>
+										<li>2 Month Support</li>
+										<li>Unlimate File Access</li>
+									</ul>
+									<a href="http://fekra.csshunter.com" class="btn btn-purchase">PURCHASE NOW</a>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-3 clearfix-sm">
+								<!-- box -->
+								<div class="box active" data-animate="fadeInUp" data-delay="200">
+									<strong class="heading">Premium</strong>
+									<span class="price"><sup>$</sup> 78.99</span>
+									<span class="month">Per month</span>
+									<ul class="list-unstyled price-list">
+										<li>Unlimited Bandwidth</li>
+										<li>100 GB Space</li>
+										<li>10 Databases</li>
+										<li>Free Ad Credits</li>
+										<li>2 Month Support</li>
+										<li>Unlimate File Access</li>
+									</ul>
+									<a href="http://fekra.csshunter.com" class="btn btn-purchase">PURCHASE NOW</a>
+								</div>
+							</div>
+							<div class="col-xs-12 col-sm-6 col-md-3">
+								<!-- box -->
+								<div class="box" data-animate="fadeInUp" data-delay="250">
+									<strong class="heading">Advanced</strong>
+									<span class="price"><sup>$</sup> 98.99</span>
+									<span class="month">Per month</span>
+									<ul class="list-unstyled price-list">
+										<li>Unlimited Bandwidth</li>
+										<li>100 GB Space</li>
+										<li>10 Databases</li>
+										<li>Free Ad Credits</li>
+										<li>2 Month Support</li>
+										<li>Unlimate File Access</li>
+									</ul>
+									<a href="http://fekra.csshunter.com" class="btn btn-purchase">PURCHASE NOW</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<!-- work section -->
+				<section class="work-section bg-grey padding-top-90 padding-bottom-90" id="section4">
+                    <!-- page heading -->
+                    <header class="page-heading">
+                        <h2 class="lime text-capitalize font-medium margin-bottom-20">Our Work</h2>
+                        <p>Ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</p>
+                    </header>
+					<!-- beans-stepslider -->
+					<div class="beans-stepslider work-slider" data-rotate="true">
+						<div class="beans-mask">
+							<div class="beans-slideset">
+								<!-- beans-slide 1 -->
+								<div class="beans-slide">
+									<!-- portfolio block nospace style4 -->
+									<div class="portfolio-block nospace style4">
+										<!-- box -->
+										<div class="box">
+											<div class="over">
+												<a href="images/placeholder.jpg" class="search lightbox"><i class="fa fa-search"></i></a>
+												<a href="portfolio-single-image.html" class="link"><i class="fa fa-link"></i></a>
+											</div>
+											<img src="http://placehold.it/476x476" alt="image description">
+										</div>
+									</div>
+								</div>
+								<!-- beans-slide 2 -->
+								<div class="beans-slide">
+									<!-- portfolio block nospace style4 -->
+									<div class="portfolio-block nospace style4">
+										<!-- box -->
+										<div class="box">
+											<div class="over">
+												<a href="images/placeholder.jpg" class="search lightbox"><i class="fa fa-search"></i></a>
+												<a href="portfolio-single-image.html" class="link"><i class="fa fa-link"></i></a>
+											</div>
+											<img src="http://placehold.it/476x476" alt="image description">
+										</div>
+									</div>
+								</div>
+								<!-- beans-slide 3 -->
+								<div class="beans-slide">
+									<!-- portfolio block nospace style4 -->
+									<div class="portfolio-block nospace style4">
+										<!-- box -->
+										<div class="box">
+											<div class="over">
+												<a href="images/placeholder.jpg" class="search lightbox"><i class="fa fa-search"></i></a>
+												<a href="portfolio-single-image.html" class="link"><i class="fa fa-link"></i></a>
+											</div>
+											<img src="http://placehold.it/476x476" alt="image description">
+										</div>
+									</div>
+								</div>
+								<!-- beans-slide 4 -->
+								<div class="beans-slide">
+									<!-- portfolio block nospace style4 -->
+									<div class="portfolio-block nospace style4">
+										<!-- box -->
+										<div class="box">
+											<div class="over">
+												<a href="images/placeholder.jpg" class="search lightbox"><i class="fa fa-search"></i></a>
+												<a href="portfolio-single-image.html" class="link"><i class="fa fa-link"></i></a>
+											</div>
+											<img src="http://placehold.it/476x476" alt="image description">
+										</div>
+									</div>
+								</div>
+								<!-- beans-slide 5 -->
+								<div class="beans-slide">
+									<!-- portfolio block nospace style4 -->
+									<div class="portfolio-block nospace style4">
+										<!-- box -->
+										<div class="box">
+											<div class="over">
+												<a href="images/app2/img06.jpg" class="search lightbox"><i class="fa fa-search"></i></a>
+												<a href="portfolio-single-image.html" class="link"><i class="fa fa-link"></i></a>
+											</div>
+											<img src="images/app2/img06.jpg" alt="image description">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="container padding-top-30">
+                            <a class="btn-next" href="#"><i class="fa fa-angle-right"></i></a>
+                            <a class="btn-prev" href="#"><i class="fa fa-angle-left"></i></a>
+                            <a class="btn btn-dark pull-left" href="portfolio-2columns.html">VIEW OUR GALLERY</a>
+						</div>
+					</div>
+				</section>
+				<!-- appsub section style3 -->
+				<section class="appsub-section style3" id="section5">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- app-subform -->
+								<div class="app-subform">
+                                    <!-- page heading -->
+                                    <header class="page-heading">
+                                        <h2 class="lime text-capitalize font-medium margin-bottom-20">Fekra Newsletter</h2>
+									    <p>Ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam</p>
+                                    </header>
+									<div class="input-box">
+										<!-- Begin MailChimp Signup Form -->
+										<link href="//cdn-images.mailchimp.com/embedcode/slim-081711.css" rel="stylesheet" type="text/css">
+										<style type="text/css">
+											#mc_embed_signup{background:#fff; clear:left; font:14px Helvetica,Arial,sans-serif; }
+											/* Add your own MailChimp form style overrides in your site stylesheet or in this style block.
+											   We recommend moving this block and the preceding CSS link to the HEAD of your HTML file. */
+										</style>
+										<div id="mc_embed_signup">
+										<form action="//htmlbeans.us11.list-manage.com/subscribe/post?u=cb2d5a07fdf0d86c96f260674&amp;id=1103b14a3b" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+										    <div id="mc_embed_signup_scroll">
+											
+											<input type="email" value="" name="EMAIL" class="email" id="mce-EMAIL" placeholder="Please Enter Your Email" required>
+										    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+										    <div style="position: absolute; left: -5000px;"><input type="text" name="b_cb2d5a07fdf0d86c96f260674_1103b14a3b" tabindex="-1" value=""></div>
+										    <div class="clear"><input type="submit" value="Subcribe Now" name="subscribe" id="mc-embedded-subscribe" class="button"></div>
+										    </div>
+										</form></div>
+									</div>
+									<!--End mc_embed_signup-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</main>
+			<!-- footer of the page -->
+			<footer id="footer" class="style26">
+				<!-- footer app -->
+				<div class="footer-app bg-shark">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- bottom box3 -->
+								<div class="bottom-box3">
+									<div class="logo"><a href="#"><img src="images/logo.png" height="49" width="90" alt="fekra"></a></div>
+									<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry Lorem Ipsum is simply dummy text of the <br>printing and typesetting industry.</p>
+									<!-- footer social -->
+									<ul class="list-inline footer-social">
+										<li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
+										<li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
+										<li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
+										<li class="behance"><a href="#"><i class="fa fa-behance"></i></a></li>
+									</ul>
+									<!-- f info box -->
+									<div class="f-info-box">
+										<div class="row">
+											<div class="col-xs-12 col-sm-3 counter-box">
+												<span class="num">250.250</span>
+												<p>TOTAL DOWNLOADS</p>
+											</div>
+											<div class="col-xs-12 col-sm-3 counter-box">
+												<span class="num">16.258</span>
+												<p>BUYERS</p>
+											</div>
+											<div class="col-xs-12 col-sm-3 counter-box">
+												<span class="num">10.258.202</span>
+												<p>FACEBOOK LIKERS</p>
+											</div>
+											<div class="col-xs-12 col-sm-3 counter-box">
+												<span class="num">380.950</span>
+												<p>VISITORS</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- footer bottom -->
+				<div class="footer-bottom bg-dark-jungle">
+					<div class="container">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- bottom box1 -->
+								<div class="bottom-box1">
+									<!-- footer nav -->
+									<ul class="list-inline footer-nav">
+										<li class="active"><a href="#">Home</a></li>
+										<li><a href="#">About Us</a></li>
+										<li><a href="#">Career</a></li>
+										<li><a href="#">Privacy Policy</a></li>
+										<li><a href="#">Use of terms</a></li>
+									</ul>
+									<span class="copyright">&copy; 2015 <a href="#">Fekra Corporation</a></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</footer>
+		</div>
+		<div class="fa fa-chevron-up" id="gotoTop" style="display: none;"></div>
+	</div>
+	<!-- include jQuery library -->
+	<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+	<!-- include custom JavaScript -->
+	<script type="text/javascript" src="js/jquery.main.js"></script>
+	<!-- include JavaScript Plugins -->
+	<script type="text/javascript" src="js/plugins.js"></script>
+</body>
+</html>
