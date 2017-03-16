@@ -8,35 +8,51 @@ use PioCMS\Models\Vehicle;
 
 class VehicleRepair extends Model implements ModelInterfaces {
 
-    public static $_table_name = 'vehicle_repairs';
-    public static $_primary = 'id';
-    private $id;
-    private $vehicle_id;
+    public static $tableName = 'vehicle_repairs';
+    public static $primary = 'id';
+
+    /** @var int */
+    private $vehicleId;
+
+    /** @var string */
     private $description;
+
+    /** @var double */
     private $price;
-    private $date_add;
-    private $date_repair;
-    private $workshop_id;
-    private $ip;
-    public $_vehicleWorkshop;
-    private $_vehicle;
+
+    /** @var \DateTime */
+    private $dateAdd;
+
+    /** @var \DateTime */
+    private $dateRepair;
+
+    /** @var int */
+    private $workshopId;
+
+    /** @var VehicleWorkshop */
+    public $vehicleWorkshop;
+
+    /** @var Vehicle */
+    private $vehicle;
 
     use ModelArrayConverter;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
-        $this->date_add = date("Y-m-d H:i:s");
-        $this->ip = ip2long(get_client_ip());
         parent::__construct($id);
+        parent::setTableName(self::$tableName);
+        parent::setPrimaryKey(self::$primary);
+        parent::setHiddenVars(array(
+            'tableName', 'primary', 'vehicle', 'vehicleWorkshop'
+        ));
+        parent::setDateVars(array('dateAdd', 'dateRepair'));
+
+        $now = new \DateTime();
+        $this->setDate_add($now);
+        $this->setIp(get_client_ip());
     }
 
-    function getId() {
-        return $this->id;
-    }
-
-    function getVehicle_id() {
-        return $this->vehicle_id;
+    function getVehicleId() {
+        return $this->vehicleId;
     }
 
     function getDescription() {
@@ -47,28 +63,24 @@ class VehicleRepair extends Model implements ModelInterfaces {
         return $this->price;
     }
 
-    function getDate_add() {
-        return $this->date_add;
+    function getDateAdd() {
+        return $this->dateAdd;
     }
 
-    function getDate_repair() {
-        return $this->date_repair;
+    function getDateRepair() {
+        return $this->dateRepair;
     }
 
-    function getWorkshop_id() {
-        return $this->workshop_id;
+    function getWorkshopId() {
+        return $this->workshopId;
     }
 
-    function getIp() {
-        return $this->ip;
+    function getVehicleWorkshop() {
+        return $this->vehicleWorkshop;
     }
 
-    function setId($id) {
-        $this->id = $id;
-    }
-
-    function setVehicle_id($vehicle_id) {
-        $this->vehicle_id = $vehicle_id;
+    function setVehicleId($vehicleId) {
+        $this->vehicleId = $vehicleId;
     }
 
     function setDescription($description) {
@@ -79,47 +91,42 @@ class VehicleRepair extends Model implements ModelInterfaces {
         $this->price = $price;
     }
 
-    function setDate_add($date_add) {
-        $this->date_add = $date_add;
+    function setDateAdd(\DateTime $dateAdd) {
+        $this->dateAdd = $dateAdd;
     }
 
-    function setDate_repair($date_repair) {
-        $this->date_repair = $date_repair;
+    function setDateRepair(\DateTime $dateRepair) {
+        $this->dateRepair = $dateRepair;
     }
 
-    function setWorkshop_id($workshop_id) {
-        $this->workshop_id = $workshop_id;
+    function setWorkshopId($workshopId) {
+        $this->workshopId = $workshopId;
     }
 
-    function setIp($ip) {
-        $this->ip = $ip;
-    }
-
-    public function setVehicleWorkshop(VehicleWorkshop $workshop) {
-        $this->_vehicleWorkshop = $workshop;
-    }
-
-    public function getVehicleWorkshop() {
-        return $this->_vehicleWorkshop;
+    function setVehicleWorkshop(VehicleWorkshop $vehicleWorkshop) {
+        $this->vehicleWorkshop = $vehicleWorkshop;
     }
 
     public function convertToArray() {
         foreach (get_object_vars($this) as $key => $val) {
-            if ($key[0] != "_") {
+            if (!in_array($key, $this->hiddenVars)) {
+                if (in_array($key, $this->dateVars)) {
+                    $val = \PioCMS\Models\Model::formatDateTime($val);
+                }
                 $array[$key] = $val;
             }
         }
-        if (!is_null($this->_vehicleWorkshop)) {
-            $array['workshop'] = $this->_vehicleWorkshop->convertToArray();
+        if (!is_null($this->vehicleWorkshop)) {
+            $array['workshop'] = $this->vehicleWorkshop->convertToArray();
         }
         return $array;
     }
 
     public function getVehicle() {
-        if ($this->_vehicle === null) {
-            $this->_vehicle = new Vehicle($this->getVehicle_id());
+        if ($this->vehicle === null) {
+            $this->vehicle = new Vehicle($this->getVehicle_id());
         }
-        return $this->_vehicle;
+        return $this->vehicle;
     }
 
 }

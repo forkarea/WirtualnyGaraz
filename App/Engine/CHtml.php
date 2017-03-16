@@ -270,7 +270,7 @@ class CHtml {
     public static function refresh($seconds, $url = '') {
         $content = "$seconds";
         if ($url !== '')
-            $content.=';url=' . self::normalizeUrl($url);
+            $content .= ';url=' . self::normalizeUrl($url);
         Yii::app()->clientScript->registerMetaTag($content, null, 'refresh');
     }
 
@@ -359,7 +359,7 @@ class CHtml {
         if ($customMethod !== false)
             $hiddens[] = self::hiddenField('_method', $customMethod);
         if ($hiddens !== array())
-            $form.="\n" . implode("\n", $hiddens);
+            $form .= "\n" . implode("\n", $hiddens);
         return $form;
     }
 
@@ -561,7 +561,7 @@ class CHtml {
         if (isset($htmlOptions['required'])) {
             if ($htmlOptions['required']) {
                 if (isset($htmlOptions['class']))
-                    $htmlOptions['class'].=' ' . self::$requiredCss;
+                    $htmlOptions['class'] .= ' ' . self::$requiredCss;
                 else
                     $htmlOptions['class'] = self::$requiredCss;
                 $label = self::$beforeRequiredLabel . $label . self::$afterRequiredLabel;
@@ -970,7 +970,7 @@ class CHtml {
         $hidden = '';
         if (!empty($htmlOptions['multiple'])) {
             if (substr($htmlOptions['name'], -2) !== '[]')
-                $htmlOptions['name'].='[]';
+                $htmlOptions['name'] .= '[]';
             if (isset($htmlOptions['unselectValue'])) {
                 $hiddenOptions = isset($htmlOptions['id']) ? array('id' => self::ID_PREFIX . $htmlOptions['id']) : array('id' => false);
                 if (!empty($htmlOptions['disabled']))
@@ -1021,7 +1021,7 @@ class CHtml {
             $htmlOptions['size'] = 4;
         if (!empty($htmlOptions['multiple'])) {
             if (substr($name, -2) !== '[]')
-                $name.='[]';
+                $name .= '[]';
         }
         return self::dropDownList($name, $select, $data, $htmlOptions);
     }
@@ -1067,7 +1067,7 @@ class CHtml {
         $container = isset($htmlOptions['container']) ? $htmlOptions['container'] : 'span';
         unset($htmlOptions['template'], $htmlOptions['separator'], $htmlOptions['container']);
         if (substr($name, -2) !== '[]')
-            $name.='[]';
+            $name .= '[]';
         if (isset($htmlOptions['checkAll'])) {
             $checkAllLabel = $htmlOptions['checkAll'];
             $checkAllLast = isset($htmlOptions['checkAllLast']) && $htmlOptions['checkAllLast'];
@@ -1865,7 +1865,7 @@ EOD;
         $hidden = '';
         if (!empty($htmlOptions['multiple'])) {
             if (substr($htmlOptions['name'], -2) !== '[]')
-                $htmlOptions['name'].='[]';
+                $htmlOptions['name'] .= '[]';
             if (isset($htmlOptions['unselectValue'])) {
                 $hiddenOptions = isset($htmlOptions['id']) ? array('id' => self::ID_PREFIX . $htmlOptions['id']) : array('id' => false);
                 if (!empty($htmlOptions['disabled']))
@@ -2062,7 +2062,7 @@ EOD;
             foreach ($m->getErrors() as $errors) {
                 foreach ($errors as $error) {
                     if ($error != '')
-                        $content.="<li>$error</li>\n";
+                        $content .= "<li>$error</li>\n";
                     if ($firstError)
                         break;
                 }
@@ -2320,14 +2320,14 @@ EOD;
         $raw = isset($htmlOptions['encode']) && !$htmlOptions['encode'];
         $content = '';
         if (isset($htmlOptions['prompt'])) {
-            $content.='<option value="">' . strtr($htmlOptions['prompt'], array('<' => '&lt;', '>' => '&gt;')) . "</option>\n";
+            $content .= '<option value="">' . strtr($htmlOptions['prompt'], array('<' => '&lt;', '>' => '&gt;')) . "</option>\n";
             unset($htmlOptions['prompt']);
         }
         if (isset($htmlOptions['empty'])) {
             if (!is_array($htmlOptions['empty']))
                 $htmlOptions['empty'] = array('' => $htmlOptions['empty']);
             foreach ($htmlOptions['empty'] as $value => $label)
-                $content.='<option value="' . self::encode($value) . '">' . strtr($label, array('<' => '&lt;', '>' => '&gt;')) . "</option>\n";
+                $content .= '<option value="' . self::encode($value) . '">' . strtr($label, array('<' => '&lt;', '>' => '&gt;')) . "</option>\n";
             unset($htmlOptions['empty']);
         }
         if (isset($htmlOptions['options'])) {
@@ -2346,12 +2346,12 @@ EOD;
             $selection = $selection->$key;
         foreach ($listData as $key => $value) {
             if (is_array($value)) {
-                $content.='<optgroup label="' . ($raw ? $key : self::encode($key)) . "\">\n";
+                $content .= '<optgroup label="' . ($raw ? $key : self::encode($key)) . "\">\n";
                 $dummy = array('options' => $options);
                 if (isset($htmlOptions['encode']))
                     $dummy['encode'] = $htmlOptions['encode'];
-                $content.=self::listOptions($selection, $value, $dummy);
-                $content.='</optgroup>' . "\n";
+                $content .= self::listOptions($selection, $value, $dummy);
+                $content .= '</optgroup>' . "\n";
             }
             else {
                 $attributes = array('value' => (string) $key, 'encode' => !$raw);
@@ -2359,7 +2359,7 @@ EOD;
                     $attributes['selected'] = 'selected';
                 if (isset($options[$key]))
                     $attributes = array_merge($attributes, $options[$key]);
-                $content.=self::tag('option', $attributes, $raw ? (string) $value : self::encode((string) $value)) . "\n";
+                $content .= self::tag('option', $attributes, $raw ? (string) $value : self::encode((string) $value)) . "\n";
             }
         }
         unset($htmlOptions['key']);
@@ -2426,10 +2426,10 @@ EOD;
                 $url = CJavaScript::quote(self::normalizeUrl($htmlOptions['submit']));
             else
                 $url = '';
-            $handler.="jQuery.yii.submitForm(this,'$url',$params);{$return};";
+            $handler .= "jQuery.yii.submitForm(this,'$url',$params);{$return};";
         }
         if (isset($htmlOptions['ajax']))
-            $handler.=self::ajax($htmlOptions['ajax']) . "{$return};";
+            $handler .= self::ajax($htmlOptions['ajax']) . "{$return};";
         if (isset($htmlOptions['confirm'])) {
             $confirm = 'confirm(\'' . CJavaScript::quote($htmlOptions['confirm']) . '\')';
             if ($handler !== '')
@@ -2527,7 +2527,7 @@ EOD;
         if (empty(self::$errorCss))
             return;
         if (isset($htmlOptions['class']))
-            $htmlOptions['class'].=' ' . self::$errorCss;
+            $htmlOptions['class'] .= ' ' . self::$errorCss;
         else
             $htmlOptions['class'] = self::$errorCss;
     }

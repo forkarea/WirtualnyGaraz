@@ -25,10 +25,10 @@ class URL {
     }
 
     public static function redirect($target, $code = 301) {
-        flush();
+        //flush();
         header("Location: " . $target, true, $code);
-        echo "<html></html>";
-        ob_flush();
+        //echo "<html></html>";
+        //ob_flush();
         exit();
     }
 

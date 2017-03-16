@@ -7,29 +7,22 @@ use PioCMS\Traits\ModelArrayConverter;
 
 class VehicleBrand extends Model implements ModelInterfaces {
 
-    public static $_table_name = 'vehicle_brands';
-    public static $_primary = 'id';
-    private $id;
+    public static $tableName = 'vehicle_brands';
+    public static $primary = 'id';
+
+    /** @var string */
     private $name;
 
     use ModelArrayConverter;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
         parent::__construct($id);
-    }
-
-    function getId() {
-        return $this->id;
+        parent::setTableName(self::$tableName);
+        parent::setPrimaryKey(self::$primary);
     }
 
     function getName() {
         return $this->name;
-    }
-
-    function setId($id) {
-        $this->id = $id;
     }
 
     function setName($name) {

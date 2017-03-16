@@ -20,23 +20,24 @@ class Garage extends Controller {
 
     public function index($page = 1) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
-        $repository = new RepositoryVehicle($this->_database);
-        $vehicles = $repository->getVehicleList()->paginate($page, 20)->getAll();
+
+        $repository = new RepositoryVehicle($this->database);
+        $vehicles = $repository->getVehicleList(Auth::getUserID())->paginate($page, 20)->getAll();
         $paginator = new Pagination($page);
         $paginator->setURL(genereteURL('garageList'));
         $paginator->total = $repository->getTotalPages();
-        $this->_view->setTitle(trans('vehicle_list'));
-        $this->_view->header('style5');
-        $this->_view->renderView('home/garage/list', array('vehicles' => $vehicles->getData(), 'total_vehicles' => $repository->getCount(), 'paginator' => $paginator));
-        $this->_view->footer();
+        $this->view->setTitle(trans('vehicle_list'));
+        $this->view->header('style5');
+        $this->view->renderView('home/garage/list', array('vehicles' => $vehicles->getData(), 'total_vehicles' => $repository->getCount(), 'paginator' => $paginator));
+        $this->view->footer();
     }
 
     public function vehicle_info($alias, $vehicle_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicle = new Vehicle($vehicle_id);
@@ -45,46 +46,46 @@ class Garage extends Controller {
         }
 
         $array = array();
-        $info = $this->_session->get('vehicle_info_error');
-        $this->_session->put('vehicle_info_error', '');
+        $info = $this->session->get('vehicle_info_error');
+        $this->session->put('vehicle_info_error', '');
         if (!empty($info)) {
             $array = unserialize($info);
         }
         $array['vehicle'] = $vehicle;
-        $this->_view->setTitle(sprintf(trans('vehicle_info'), $vehicle->getBrandModel()));
-        $this->_view->header('style5');
-        $this->_view->renderView('home/garage/vehicle_info', $array);
-        $this->_view->footer();
+        $this->view->setTitle(sprintf(trans('vehicle_info'), $vehicle->getBrandModel()));
+        $this->view->header('style5');
+        $this->view->renderView('home/garage/vehicle_info', $array);
+        $this->view->footer();
     }
 
     public function vehicle_add() {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $array = array();
-        $info = $this->_session->get('vehicle_add_error');
-        $this->_session->put('vehicle_add_error', '');
+        $info = $this->session->get('vehicle_add_error');
+        $this->session->put('vehicle_add_error', '');
         if (!empty($info)) {
             $array = unserialize($info);
         }
         $array['form_url'] = genereteURL('vehicle_add');
-        $this->_view->setTitle(trans('button_add_vehicle'));
-        $this->_view->header('style5');
+        $this->view->setTitle(trans('button_add_vehicle'));
+        $this->view->header('style5');
         $this->loadDataPicker();
-        $this->_view->renderView('home/garage/vehicle_add', $array);
-        $this->_view->footer();
+        $this->view->renderView('home/garage/vehicle_add', $array);
+        $this->view->footer();
     }
 
     public function vehicle_add_form() {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
 
         $_POST['price'] = convertCurrency($_POST['price']);
         $_POST['mileage'] = convertCurrency($_POST['mileage']);
-        $v = new Validator($this->_database);
+        $v = new Validator($this->database);
         $v->validate([
             'mark' => [$_POST['mark'], 'required|min(3)|max(20)'],
             'model' => [$_POST['model'], 'required|min(3)|max(20)'],
@@ -104,7 +105,7 @@ class Garage extends Controller {
 
         if ($v->passes()) {
 
-            $brandRepository = new RepositoryVehicleBrand($this->_database);
+            $brandRepository = new RepositoryVehicleBrand($this->database);
             $brand = $brandRepository->findByParams('name', $_POST['mark']);
             if ($brand->getID() > 0) {
                 $_POST['brand_id'] = $brand->getID();
@@ -113,7 +114,7 @@ class Garage extends Controller {
                 $_POST['brand_id'] = $brandRepository->insert($brand->convertToArray());
             }
 
-            $modelRepository = new RepositoryVehicleModel($this->_database);
+            $modelRepository = new RepositoryVehicleModel($this->database);
             $model = $modelRepository->findByParams('name', $_POST['model']);
             if ($model->getID() > 0) {
                 $_POST['model_id'] = $model->getID();
@@ -132,7 +133,7 @@ class Garage extends Controller {
         } else {
             $array = $_POST;
             $array['error'] = $v->errors()->all();
-            $this->_session->set('vehicle_add_error', serialize($array));
+            $this->session->set('vehicle_add_error', serialize($array));
             $this->redirect(genereteURL('vehicle_add'));
         }
     }
@@ -140,7 +141,7 @@ class Garage extends Controller {
     public function vehicle_edit($vehicle_id) {
         $vehicle_id = intval(abs($vehicle_id));
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
 
@@ -161,24 +162,24 @@ class Garage extends Controller {
             unset($array['price']);
         }
 
-        $info = $this->_session->get('vehicle_edit_error');
-        $this->_session->put('vehicle_edit_error', '');
+        $info = $this->session->get('vehicle_edit_error');
+        $this->session->put('vehicle_edit_error', '');
         if (!empty($info)) {
             $array = unserialize($info);
         }
 
         $array['vehicle_id'] = $vehicle_id;
         $array['form_url'] = genereteURL('vehicle_edit', array('id' => $vehicle->getID()));
-        $this->_view->setTitle(trans('vehicle_edit_form'));
-        $this->_view->header('style5');
+        $this->view->setTitle(trans('vehicle_edit_form'));
+        $this->view->header('style5');
         $this->loadDataPicker();
-        $this->_view->renderView('home/garage/vehicle_add', $array);
-        $this->_view->footer();
+        $this->view->renderView('home/garage/vehicle_add', $array);
+        $this->view->footer();
     }
 
     public function vehicle_edit_form() {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
 
@@ -191,7 +192,7 @@ class Garage extends Controller {
             $this->redirect(genereteURL('garage'));
         }
 
-        $v = new Validator($this->_database);
+        $v = new Validator($this->database);
 
         $rules = array(
             'id' => 'int',
@@ -214,7 +215,7 @@ class Garage extends Controller {
         $v->validate($_POST, $rules);
 
         if ($v->passes()) {
-            $brandRepository = new RepositoryVehicleBrand($this->_database);
+            $brandRepository = new RepositoryVehicleBrand($this->database);
             $brand = $brandRepository->findByParams('name', $_POST['mark']);
             if ($brand->getID() > 0) {
                 $_POST['brand_id'] = $brand->getID();
@@ -223,7 +224,7 @@ class Garage extends Controller {
                 $_POST['brand_id'] = $brandRepository->insert($brand->convertToArray());
             }
 
-            $modelRepository = new RepositoryVehicleModel($this->_database);
+            $modelRepository = new RepositoryVehicleModel($this->database);
             $model = $modelRepository->findByParams('name', $_POST['model']);
             if ($model->getID() > 0) {
                 $_POST['model_id'] = $model->getID();
@@ -241,14 +242,14 @@ class Garage extends Controller {
         } else {
             $array = $_POST;
             $array['error'] = $v->errors()->all();
-            $this->_session->set('vehicle_edit_error', serialize($array));
+            $this->session->set('vehicle_edit_error', serialize($array));
         }
         $this->redirect(genereteURL('vehicle_edit', array('id' => $_POST['id'])));
     }
 
     public function refuel_add($vehicle_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
 
@@ -261,27 +262,27 @@ class Garage extends Controller {
             $array['vehicle_id'] = $vehicle_id;
         }
 
-        $repository = new RepositoryVehicle($this->_database);
+        $repository = new RepositoryVehicle($this->database);
         $vehicles = $repository->getVehicleList()->getAll();
         $array['vehicles'] = $vehicles->getData();
         $array['date_tank'] = date('Y-m-d');
-        $info = $this->_session->get('refuel_add_error');
-        $this->_session->put('refuel_add_error', '');
+        $info = $this->session->get('refuel_add_error');
+        $this->session->put('refuel_add_error', '');
         if (!empty($info)) {
             $array += unserialize($info);
         }
         $array['form_url'] = genereteURL('refuel_add', array('id' => $vehicle_id));
-        $this->_view->setTitle($vehicle->getBrandModel() . ' - ' . trans('refuel_add'));
+        $this->view->setTitle($vehicle->getBrandModel() . ' - ' . trans('refuel_add'));
         $this->loadDataPicker();
 
-        $this->_view->header('style5');
-        $this->_view->renderView('home/garage/refuel_add', $array);
-        $this->_view->footer();
+        $this->view->header('style5');
+        $this->view->renderView('home/garage/refuel_add', $array);
+        $this->view->footer();
     }
 
     public function refuel_add_form($vehicle_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicle_id = intval(abs($vehicle_id));
@@ -310,7 +311,7 @@ class Garage extends Controller {
         print_r($_POST);
         exit;
 
-        $v = new Validator($this->_database);
+        $v = new Validator($this->database);
         $rules = array(
             'vehicle_id' => 'int',
             'date_tank' => 'required|date',
@@ -338,22 +339,22 @@ class Garage extends Controller {
             $vehicle->setMileage($vehicle->getMileage() + $_POST['distance']);
             $vehicle->setTotalRefuel($vehicle->getTotalRefuel() + $_POST['galon']);
             $vehicle->update();
-            if (isXML()) {
-                $this->_view->renderView('home/garage/vehicle_add', array('vehicleRefuel' => $vehicleRefuel->toArray()));
-            } else {
-                $this->redirect(genereteURL('vehicle_info', array('alias' => $vehicle->getAlias(), 'id' => $vehicle->getID())));
-            }
+//            if (isXML()) {
+//                $this->view->renderView('home/garage/vehicle_add', array('vehicleRefuel' => $vehicleRefuel->toArray()));
+//            } else {
+            $this->redirect(genereteURL('vehicle_info', array('alias' => $vehicle->getAlias(), 'id' => $vehicle->getID())));
+//            }
         } else {
             $array = $_POST;
             $array['error'] = $v->errors()->all();
-            $this->_session->set('refuel_add_error', serialize($array));
+            $this->session->set('refuel_add_error', serialize($array));
             $this->redirect(genereteURL('refuel_add', array('id' => $vehicle_id)));
         }
     }
 
     public function refuel_delete($refuel_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicleRefuel = new VehicleRefuel($refuel_id);
@@ -371,7 +372,7 @@ class Garage extends Controller {
 
     public function repair_add($vehicle_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicle_id = intval(abs($vehicle_id));
@@ -383,26 +384,26 @@ class Garage extends Controller {
             $array['vehicle_id'] = $vehicle_id;
         }
 
-        $repository = new RepositoryVehicle($this->_database);
+        $repository = new RepositoryVehicle($this->database);
         $vehicles = $repository->getVehicleList()->getAll();
         $array['vehicles'] = $vehicles->getData();
 
-        $info = $this->_session->get('repair_add_error');
-        $this->_session->put('repair_add_error', '');
+        $info = $this->session->get('repair_add_error');
+        $this->session->put('repair_add_error', '');
         if (!empty($info)) {
             $array = unserialize($info);
         }
         $array['form_url'] = genereteURL('repair_add', array('id' => $vehicle_id));
-        $this->_view->setTitle($vehicle->getBrandModel() . ' - ' . trans('repair_add'));
-        $this->_view->header('style5');
+        $this->view->setTitle($vehicle->getBrandModel() . ' - ' . trans('repair_add'));
+        $this->view->header('style5');
         $this->loadDataPicker();
-        $this->_view->renderView('home/garage/repair_add', $array);
-        $this->_view->footer();
+        $this->view->renderView('home/garage/repair_add', $array);
+        $this->view->footer();
     }
 
     public function repair_add_form($vehicle_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicle_id = intval(abs($vehicle_id));
@@ -422,7 +423,7 @@ class Garage extends Controller {
         unset($_POST['vehicle_sqliteId']);
         unset($_POST['sqliteId']);
 
-        $v = new Validator($this->_database);
+        $v = new Validator($this->database);
 
         $rules = array(
             'vehicle_id' => 'int',
@@ -435,7 +436,7 @@ class Garage extends Controller {
         if ($v->passes()) {
             $_POST['ip'] = ip2long(get_client_ip());
 
-            $workshopRepository = new RepositoryWorkshop($this->_database);
+            $workshopRepository = new RepositoryWorkshop($this->database);
             $workshop = $workshopRepository->findByParams('title', $_POST['workshop']);
             if ($workshop->getID() > 0) {
                 $_POST['workshop_id'] = $workshop->getID();
@@ -455,14 +456,14 @@ class Garage extends Controller {
         } else {
             $array = $_POST;
             $array['error'] = $v->errors()->all();
-            $this->_session->set('repair_add_error', serialize($array));
+            $this->session->set('repair_add_error', serialize($array));
             $this->redirect(genereteURL('repair_add', array('id' => $vehicle_id)));
         }
     }
 
     public function repair_delete($refuel_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicleRepair = new VehicleRepair($refuel_id);
@@ -477,14 +478,14 @@ class Garage extends Controller {
     }
 
     public function loadDataPicker() {
-        $this->_view->jsPush('https://code.jquery.com/ui/1.12.0/jquery-ui.js');
-        $this->_view->jsPush('js/date_picker.js', true);
-        $this->_view->cssPush('http://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css');
+        $this->view->jsPush('https://code.jquery.com/ui/1.12.0/jquery-ui.js');
+        $this->view->jsPush('js/date_picker.js', true);
+        $this->view->cssPush('http://code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css');
     }
 
     public function vehicle_refuel_info($alias, $vehicle_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicle = new Vehicle($vehicle_id);
@@ -493,22 +494,22 @@ class Garage extends Controller {
         }
 
         $array = array();
-        $info = $this->_session->get('vehicle_info_error');
-        $this->_session->put('vehicle_info_error', '');
+        $info = $this->session->get('vehicle_info_error');
+        $this->session->put('vehicle_info_error', '');
         if (!empty($info)) {
             $array = unserialize($info);
         }
         $array['vehicle'] = $vehicle;
         $array['vehicleRefuels'] = $vehicle->getVehicleRefuelAll()->loadFromArray();
-        $this->_view->setTitle(trans('refuel_list') . ' ' . $vehicle->getBrandModel());
-        $this->_view->header('style5');
-        $this->_view->renderView('home/garage/vehicle_refuel_info', $array);
-        $this->_view->footer();
+        $this->view->setTitle(trans('refuel_list') . ' ' . $vehicle->getBrandModel());
+        $this->view->header('style5');
+        $this->view->renderView('home/garage/vehicle_refuel_info', $array);
+        $this->view->footer();
     }
 
     public function vehicle_repair_info($alias, $vehicle_id) {
         if (!Auth::isAuth()) {
-            $this->_session->set('login_error', serialize(array(trans('login_error_default'))));
+            $this->session->set('login_error', serialize(array(trans('login_error_default'))));
             $this->redirect(genereteURL('user_login'));
         }
         $vehicle = new Vehicle($vehicle_id);
@@ -517,17 +518,17 @@ class Garage extends Controller {
         }
 
         $array = array();
-        $info = $this->_session->get('vehicle_info_error');
-        $this->_session->put('vehicle_info_error', '');
+        $info = $this->session->get('vehicle_info_error');
+        $this->session->put('vehicle_info_error', '');
         if (!empty($info)) {
             $array = unserialize($info);
         }
         $array['vehicle'] = $vehicle;
         $array['vehicleRepairs'] = $vehicle->getVehicleRepair(-1)->loadFromArray();
-        $this->_view->setTitle(trans('repair_list') . ' ' . $vehicle->getBrandModel());
-        $this->_view->header('style5');
-        $this->_view->renderView('home/garage/vehicle_repair_info', $array);
-        $this->_view->footer();
+        $this->view->setTitle(trans('repair_list') . ' ' . $vehicle->getBrandModel());
+        $this->view->header('style5');
+        $this->view->renderView('home/garage/vehicle_repair_info', $array);
+        $this->view->footer();
     }
 
 }

@@ -4,38 +4,45 @@ namespace PioCMS\Models;
 
 use PioCMS\Interfaces\ModelInterfaces;
 use PioCMS\Traits\ModelArrayConverter;
+use PioCMS\Traits\IP;
 
 class VehicleGallery extends Model implements ModelInterfaces {
 
-    public static $_table_name = 'vehicle_gallery';
-    public static $_primary = 'id';
-    private $id;
-    private $vehicle_id;
-    private $date_add;
+    public static $tableName = 'vehicle_gallery';
+    public static $primary = 'id';
+
+    /** @var int */
+    private $vehicleId;
+
+    /** @var \DateTime */
+    private $dateAdd;
+
+    /** @var string */
     private $filename;
+
+    /** @var string */
     private $path;
-    private $ip;
 
     use ModelArrayConverter;
+    use IP;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
-		$this->date_add = date("Y-m-d H:i:s");
-		$this->ip = ip2long(get_client_ip());
         parent::__construct($id);
+        parent::setTableName(self::$tableName);
+        parent::setPrimaryKey(self::$primary);
+        parent::setDateVars(array('dateAdd'));
+
+        $now = new \DateTime();
+        $this->setDateAdd($now);
+        $this->setIp(get_client_ip());
     }
 
-    function getId() {
-        return $this->id;
+    function getVehicleId() {
+        return $this->vehicleId;
     }
 
-    function getVehicle_id() {
-        return $this->vehicle_id;
-    }
-
-    function getDate_add() {
-        return $this->date_add;
+    function getDateAdd() {
+        return $this->dateAdd;
     }
 
     function getFilename() {
@@ -46,20 +53,12 @@ class VehicleGallery extends Model implements ModelInterfaces {
         return $this->path;
     }
 
-    function getIp() {
-        return $this->ip;
+    function setVehicleId($vehicleId) {
+        $this->vehicleId = $vehicleId;
     }
 
-    function setId($id) {
-        $this->id = $id;
-    }
-
-    function setVehicle_id($vehicle_id) {
-        $this->vehicle_id = $vehicle_id;
-    }
-
-    function setDate_add($date_add) {
-        $this->date_add = $date_add;
+    function setDateAdd(\DateTime $dateAdd) {
+        $this->dateAdd = $dateAdd;
     }
 
     function setFilename($filename) {
@@ -68,10 +67,6 @@ class VehicleGallery extends Model implements ModelInterfaces {
 
     function setPath($path) {
         $this->path = $path;
-    }
-
-    function setIp($ip) {
-        $this->ip = $ip;
     }
 
 }

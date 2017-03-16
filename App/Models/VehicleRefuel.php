@@ -4,48 +4,69 @@ namespace PioCMS\Models;
 
 use PioCMS\Interfaces\ModelInterfaces;
 use PioCMS\Traits\ModelArrayConverter;
+use PioCMS\Traits\IP;
 use PioCMS\Models\Vehicle;
 
 class VehicleRefuel extends Model implements ModelInterfaces {
 
-    public static $_table_name = 'vehicle_refuels';
-    public static $_primary = 'id';
-    private $id;
-    private $vehicle_id;
-    private $date_add;
-    private $date_tank;
+    public static $tableName = 'vehicle_refuels';
+    public static $primary = 'id';
+
+    /** @var int */
+    private $vehicleId;
+
+    /** @var DateTime */
+    private $dateAdd;
+
+    /** @var \DateTime */
+    private $dateTank;
+
+    /** @var double */
     private $distance;
+
+    /** @var double */
     private $galon;
-	private $average_consumption = '0.00';
+
+    /** @var double */
+    private $averageConsumption;
+
+    /** @var double */
     private $price;
-	private $price_per_galon = '0.00';
-    private $ip;
-    private $_vehicle;
+
+    /** @var double */
+    private $pricePerGalon;
+
+    /** @var Vehicle */
+    private $vehicle;
 
     use ModelArrayConverter;
+    use IP;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
-        $this->date_add = date("Y-m-d H:i:s");
-        $this->ip = ip2long(get_client_ip());
+        $this->primary = self::$primary;
+        $this->tableName = self::$tableName;
+        $this->hiddenVars = array('tableName', 'primary', 'vehicle');
+        $this->dateVars = array('dateAdd');
+
+        $now = new \DateTime();
+        $this->setDate_add($now);
+        $this->setAverageConsumption(0.00);
+        $this->setPricePerGalon(0.00);
+        $this->setPrice(0.00);
+        $this->setIp(get_client_ip());
         parent::__construct($id);
     }
 
-    function getId() {
-        return $this->id;
+    function getVehicleId() {
+        return $this->vehicleId;
     }
 
-    function getVehicle_id() {
-        return $this->vehicle_id;
+    function getDateAdd() {
+        return $this->dateAdd;
     }
 
-    function getDate_add() {
-        return $this->date_add;
-    }
-
-    function getDate_tank() {
-        return $this->date_tank;
+    function getDateTank() {
+        return $this->dateTank;
     }
 
     function getDistance() {
@@ -55,68 +76,56 @@ class VehicleRefuel extends Model implements ModelInterfaces {
     function getGalon() {
         return $this->galon;
     }
-	
-	function getAverageConsumption() {
-        return $this->average_consumption;
-    }	
-	
-    function getPricePerGalon() {
-        return $this->price_per_galon;
+
+    function getAverageConsumption() {
+        return $this->averageConsumption;
     }
 
     function getPrice() {
         return $this->price;
     }
 
-    function getIp() {
-        return $this->ip;
+    function getPricePerGalon() {
+        return $this->pricePerGalon;
     }
 
-    function setId($id) {
-        $this->id = $id;
+    function setVehicleId($vehicleId) {
+        $this->vehicleId = $vehicleId;
     }
 
-    function setVehicle_id($vehicle_id) {
-        $this->vehicle_id = $vehicle_id;
+    function setDateAdd(DateTime $dateAdd) {
+        $this->dateAdd = $dateAdd;
     }
 
-    function setDate_add($date_add) {
-        $this->date_add = $date_add;
-    }
-
-    function setDate_tank($date_tank) {
-        $this->date_tank = $date_tank;
+    function setDateTank(\DateTime $dateTank) {
+        $this->dateTank = $dateTank;
     }
 
     function setDistance($distance) {
         $this->distance = $distance;
     }
-	
-	function setAverageConsumption($average_consumption) {
-        $this->average_consumption = $average_consumption;
-    }	
 
     function setGalon($galon) {
         $this->galon = $galon;
     }
-	
-    function setPricePerGalon($price_per_galon) {
-        $this->price_per_galon = $price_per_galon;
+
+    function setAverageConsumption($averageConsumption) {
+        $this->averageConsumption = $averageConsumption;
     }
 
     function setPrice($price) {
         $this->price = $price;
     }
 
-    function setIp($ip) {
-        $this->ip = $ip;
+    function setPricePerGalon($pricePerGalon) {
+        $this->pricePerGalon = $pricePerGalon;
     }
 
     public function getVehicle() {
-        if ($this->_vehicle === null) {
-            $this->_vehicle = new Vehicle($this->getVehicle_id());
+        if ($this->vehicle === null) {
+            $this->vehicle = new Vehicle($this->getVehicle_id());
         }
-        return $this->_vehicle;
+        return $this->vehicle;
     }
 
 }

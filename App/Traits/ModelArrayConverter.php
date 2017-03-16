@@ -3,19 +3,31 @@
 namespace PioCMS\Traits;
 
 trait ModelArrayConverter {
-	
+
     public function convertToArray() {
-        foreach (get_object_vars($this) as $key => $val) {
-			if ($key[0]!="_") {
-				$array[$key] = $val;
-			}
+        $array = array();
+        if (!empty($this->getMapper())) {
+            print 'asdsadsadsa';
+            foreach ($this->getMapper() as $key => $val) {
+                print $key . ' - ' . $val . '<br />';
+                if (!in_array($key, $this->hiddenVars)) {
+                    if (in_array($key, $this->dateVars)) {
+                        $this->$key = \PioCMS\Models\Model::formatDateTime($this->$key);
+                    }
+                    $array[$val] = $this->$key;
+                }
+            }
+
+            return $array;
         }
-        return $array;
-    }
-	
-    public function convertToArray2() {
         foreach (get_object_vars($this) as $key => $val) {
-            $array[$key] = $val;
+            print $key . ' - ' . $val . '<br />';
+            if (!in_array($key, $this->hiddenVars)) {
+                if (in_array($key, $this->dateVars)) {
+                    $val = \PioCMS\Models\Model::formatDateTime($val);
+                }
+                $array[$key] = $val;
+            }
         }
         return $array;
     }
@@ -24,37 +36,24 @@ trait ModelArrayConverter {
         if (empty($array)) {
             return;
         }
+        if (!empty($this->getMapper())) {
+            foreach ($this->getMapper() as $key => $val) {
+                if (in_array($key, $this->dateVars)) {
+                    $array[$val] = \PioCMS\Models\Model::createDateTime($array[$val]);
+                }
+                $this->$key = $array[$val];
+            }
+            return;
+        }
         foreach (get_object_vars($this) as $key => $val) {
             if (isset($array[$key])) {
+                if (!empty($this->dateVars) && in_array($key, $this->dateVars)) {
+                    $array[$key] = \PioCMS\Models\Model::createDateTime($array[$key]);
+                }
                 $this->$key = $array[$key];
             }
         }
+//        exit;
     }
 
-    public function convertToArray1() {
-		$array = array();
-		$reflect = new \ReflectionClass($this);
-		$props   = $reflect->getProperties();
-        foreach ($props as $key => $val) {
-			if ($val->name[0]!="_") {
-				$array[$val->name] = $this->{$val->name};
-			}
-        }
-    }
-
-    public function loadFromArray1($array) {
-        if (empty($array)) {
-            return;
-        }
-		
-		$reflect = new \ReflectionClass($this);
-		//$props   = $reflect->getProperties(\ReflectionProperty::IS_PUBLIC | \ReflectionProperty::IS_PRIVATE);
-        foreach ($props as $key => $val) {
-            if (isset($array[$val->name])) {
-                $this->{$val->name} = $array[$val->name];
-            }
-        }
-		
-    }
-	
 }

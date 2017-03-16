@@ -4,34 +4,72 @@ namespace PioCMS\Models;
 
 use PioCMS\Interfaces\ModelInterfaces;
 use PioCMS\Traits\ModelArrayConverter;
+use PioCMS\Traits\IP;
 
 class User extends Model implements ModelInterfaces {
 
-    public static $_table_name = 'users';
-    public static $_primary = 'id';
-    private $id;
+    // account type
+    const ACCOUNT_TYPE_USER = 1;
+    // status
+    const STATUS_WAITING = "waiting";
+    const STATUS_ACTIVE = "active";
+    const STATUS_BLOCKED = "blocked";
+    const STATUS_DELETED = "deleted";
+
+    public static $tableName = 'users';
+    public static $primary = 'id';
+
+    /** @var string */
     private $password;
+
+    /** @var string */
     private $mail;
-    private $first_name;
-    private $account_type = 1;
-    private $date_register;
-    private $date_last_login = '0000-00-00 00:00:00';
-    private $code = '';
-    private $status = 'waiting';
-    private $ip;
+
+    /** @var string */
+    private $firstName;
+
+    /** @var tinyint */
+    private $accountType;
+
+    /** @var \DateTime */
+    private $dateRegister;
+
+    /** @var \DateTime */
+    private $dateLastLogin;
+
+    /** @var string */
+    private $code;
+
+    /** @var string */
+    private $status;
 
     use ModelArrayConverter;
+    use IP;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
-        $this->date_register = date("Y-m-d H:i:s");
-        $this->ip = ip2long(get_client_ip());
         parent::__construct($id);
-    }
+        parent::setTableName(self::$tableName);
+        parent::setPrimaryKey(self::$primary);
+        parent::setDateVars(array('dateRegister', 'dateLastLogin'));
+        parent::setMapper(array(
+            'id' => self::$primary,
+            'password' => 'password',
+            'mail' => 'mail',
+            'firstName' => 'first_name',
+            'accountType' => 'account_type',
+            'dateRegister' => 'date_register',
+            'dateLastLogin' => 'date_last_login',
+            'code' => 'code',
+            'status' => 'status',
+            'ip' => 'ip'
+        ));
 
-    function getId() {
-        return $this->id;
+        $now = new \DateTime();
+        $this->setDateRegister($now);
+        $this->setDateLastLogin($now);
+        $this->setIp(get_client_ip());
+        $this->setAccountType(self::ACCOUNT_TYPE_USER);
+        $this->setStatus(self::STATUS_WAITING);
     }
 
     function getPassword() {
@@ -43,19 +81,19 @@ class User extends Model implements ModelInterfaces {
     }
 
     function getFirst_name() {
-        return $this->first_name;
+        return $this->firstName;
     }
 
-    function getAccount_type() {
-        return $this->account_type;
+    function getAccountType() {
+        return $this->accountType;
     }
 
-    function getDate_register() {
-        return $this->date_register;
+    function getDateRegister() {
+        return $this->dateRegister;
     }
 
-    function getDate_last_login() {
-        return $this->date_last_login;
+    function getDateLastLogin() {
+        return $this->dateLastLogin;
     }
 
     function getCode() {
@@ -64,14 +102,6 @@ class User extends Model implements ModelInterfaces {
 
     function getStatus() {
         return $this->status;
-    }
-
-    function getIp() {
-        return $this->ip;
-    }
-
-    function setId($id) {
-        $this->id = $id;
     }
 
     function setPassword($password) {
@@ -83,19 +113,19 @@ class User extends Model implements ModelInterfaces {
     }
 
     function setFirst_name($first_name) {
-        $this->first_name = $first_name;
+        $this->firstName = $first_name;
     }
 
-    function setAccount_type($account_type) {
-        $this->account_type = $account_type;
+    function setAccountType($accountType) {
+        $this->accountType = $accountType;
     }
 
-    function setDate_register($date_register) {
-        $this->date_register = $date_register;
+    function setDateRegister(\DateTime $dateRegister) {
+        $this->dateRegister = $dateRegister;
     }
 
-    function setDate_last_login($date_last_login) {
-        $this->date_last_login = $date_last_login;
+    function setDateLastLogin(\DateTime $dateLastLogin) {
+        $this->dateLastLogin = $dateLastLogin;
     }
 
     function setCode($code) {
@@ -104,10 +134,6 @@ class User extends Model implements ModelInterfaces {
 
     function setStatus($status) {
         $this->status = $status;
-    }
-
-    function setIp($ip) {
-        $this->ip = $ip;
     }
 
 }

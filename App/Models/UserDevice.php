@@ -4,91 +4,91 @@ namespace PioCMS\Models;
 
 use PioCMS\Interfaces\ModelInterfaces;
 use PioCMS\Traits\ModelArrayConverter;
+use PioCMS\Traits\IP;
 
 class UserDevice extends Model implements ModelInterfaces {
 
-    public static $_table_name = 'user_devices';
-    public static $_primary = 'id';
-    private $id;
-    private $user_id;
-    private $date_login;
-    private $device_id = "";
-	private $date_sync = "0000-00-00 00:00:00";
-    private $token = "";
-    private $ip;
-    private $gcm = "";
+    public static $tableName = 'user_devices';
+    public static $primary = 'id';
+
+    /** @var int */
+    private $userId;
+
+    /** @var \DateTime */
+    private $dateLogin;
+
+    /** @var string */
+    private $deviceId;
+
+    /** @var \DateTime */
+    private $dateSync;
+
+    /** @var string */
+    private $token;
+
+    /** @var string */
+    private $gcm;
 
     use ModelArrayConverter;
+    use IP;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
-        $this->ip = ip2long(get_client_ip());
         parent::__construct($id);
+        parent::setTableName(self::$tableName);
+        parent::setPrimaryKey(self::$primary);
+        parent::setDateVars(array('dateLogin', 'dateSync'));
+
+        $now = new \DateTime();
+        $this->setDateSync($now);
+        $this->setIp(get_client_ip());
     }
 
-    function getId() {
-        return $this->id;
+    function getUserId() {
+        return $this->userId;
     }
 
-    function getUser_id() {
-        return $this->user_id;
+    function getDateLogin() {
+        return $this->dateLogin;
     }
 
-    function getDate_login() {
-        return $this->date_login;
+    function getDeviceId() {
+        return $this->deviceId;
     }
 
-    function getDevice_id() {
-        return $this->device_id;
+    function getDateSync() {
+        return $this->dateSync;
     }
 
     function getToken() {
         return $this->token;
     }
 
-    function getIp() {
-        return $this->ip;
-    }
-
     function getGcm() {
         return $this->gcm;
     }
-	
-    function getDateSync() {
-        return $this->date_sync;
+
+    function setUserId($userId) {
+        $this->userId = $userId;
     }
 
-    function setId($id) {
-        $this->id = $id;
+    function setDateLogin(\DateTime $dateLogin) {
+        $this->dateLogin = $dateLogin;
     }
 
-    function setUser_id($user_id) {
-        $this->user_id = $user_id;
+    function setDeviceId($deviceId) {
+        $this->deviceId = $deviceId;
     }
 
-    function setDate_login($date_login) {
-        $this->date_login = $date_login;
-    }
-
-    function setDevice_id($device_id) {
-        $this->device_id = $device_id;
+    function setDateSync(\DateTime $dateSync) {
+        $this->dateSync = $dateSync;
     }
 
     function setToken($token) {
         $this->token = $token;
     }
 
-    function setIp($ip) {
-        $this->ip = $ip;
-    }
-
     function setGcm($gcm) {
         $this->gcm = $gcm;
-    }
-	
-    function setDateSync($date_sync) {
-        $this->date_sync = $date_sync;
     }
 
 }

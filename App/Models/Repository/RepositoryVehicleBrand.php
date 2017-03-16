@@ -6,14 +6,14 @@ use PioCMS\Models\VehicleBrand;
 
 class RepositoryVehicleBrand extends Repository {
 
-    protected $table_name;
-    protected $default_column;
+    protected $tableName;
+    protected $defaultColumn;
     protected $model = 'PioCMS\Models\VehicleBrand';
 
     public function __construct($_database) {
         parent::__construct($_database);
-        $this->table_name = VehicleBrand::$_table_name;
-        $this->default_column = VehicleBrand::$_primary;
+        $this->tableName = VehicleBrand::$tableName;
+        $this->defaultColumn = VehicleBrand::$primary;
     }
 
 }

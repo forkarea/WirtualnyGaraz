@@ -6,10 +6,10 @@ use Violin\Violin;
 
 class Validator extends Violin {
 
-    protected $_database;
+    protected $database;
 
     public function __construct($db) {
-        $this->_database = $db;
+        $this->database = $db;
 
         $this->addRuleMessage('unique', 'That {field} is taken.');
         $this->addRuleMessage('exist', 'That {field} not exist in our database');
@@ -24,7 +24,7 @@ class Validator extends Violin {
         }
         $table_name = $args[0];
         $primary = $args[1];
-        $count = $this->_database->getValue($table_name, "count($primary)");
+        $count = $this->database->getValue($table_name, "count($primary)");
         return ($count == 0);
     }
 
@@ -34,7 +34,7 @@ class Validator extends Violin {
         }
         $table_name = $args[0];
         $primary = $args[1];
-        $count = $this->_database->getValue($table_name, "count($primary)");
+        $count = $this->database->getValue($table_name, "count($primary)");
         return ($count > 0);
     }
 
@@ -46,7 +46,7 @@ class Validator extends Violin {
         $primary = $args[1];
         $id = $args[2];
 
-        $record = $this->_database->where($primary, $value)->getOne($table_name);
+        $record = $this->database->where($primary, $value)->getOne($table_name);
         if (count($record) > 0 && $record['id'] != $id) {
             return false;
         }

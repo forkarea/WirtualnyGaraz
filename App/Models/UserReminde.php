@@ -4,91 +4,91 @@ namespace PioCMS\Models;
 
 use PioCMS\Interfaces\ModelInterfaces;
 use PioCMS\Traits\ModelArrayConverter;
+use PioCMS\Traits\IP;
 
 class UserReminde extends Model implements ModelInterfaces {
 
-    public static $_table_name = 'user_reminders';
-    public static $_primary = 'id';
-    private $id;
-    private $user_id;
-    private $vehicle_id;
-    private $date_reminder;
-    private $date_add;
-    private $date_edit = "0000-00-00 00:00:00";
+    public static $tableName = 'user_reminders';
+    public static $primary = 'id';
+
+    /** @var int */
+    private $userId;
+
+    /** @var int */
+    private $vehicleId;
+
+    /** @var \DateTime */
+    private $dateReminder;
+
+    /** @var \DateTime */
+    private $dateAdd;
+
+    /** @var \DateTime */
+    private $dateEdit;
+
+    /** @var string */
     private $description;
-    private $ip;
 
     use ModelArrayConverter;
+    use IP;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
-        $this->ip = ip2long(get_client_ip());
         parent::__construct($id);
+        parent::setTableName(self::$tableName);
+        parent::setPrimaryKey(self::$primary);
+        parent::setDateVars(array('dateReminder', 'dateAdd', 'dateEdit'));
+
+        $now = new \DateTime();
+        $this->setDate_reminder($now);
+        $this->setIp(get_client_ip());
     }
 
-    function getId() {
-        return $this->id;
+    function getUserId() {
+        return $this->userId;
     }
 
-    function getUser_id() {
-        return $this->user_id;
+    function getVehicleId() {
+        return $this->vehicleId;
     }
 
-    function getVehicle_id() {
-        return $this->vehicle_id;
+    function getDateReminder() {
+        return $this->dateReminder;
     }
 
-    function getDate_reminder() {
-        return $this->date_reminder;
+    function getDateAdd() {
+        return $this->dateAdd;
     }
 
-    function getDate_add() {
-        return $this->date_add;
-    }
-
-    function getDate_edit() {
-        return $this->date_edit;
+    function getDateEdit() {
+        return $this->dateEdit;
     }
 
     function getDescription() {
         return $this->description;
     }
 
-    function getIp() {
-        return $this->ip;
+    function setUserId($userId) {
+        $this->userId = $userId;
     }
 
-    function setId($id) {
-        $this->id = $id;
+    function setVehicleId($vehicleId) {
+        $this->vehicleId = $vehicleId;
     }
 
-    function setUser_id($user_id) {
-        $this->user_id = $user_id;
+    function setDateReminder(\DateTime $dateReminder) {
+        $this->dateReminder = $dateReminder;
     }
 
-    function setVehicle_id($vehicle_id) {
-        $this->vehicle_id = $vehicle_id;
+    function setDateAdd(\DateTime $dateAdd) {
+        $this->dateAdd = $dateAdd;
     }
 
-    function setDate_reminder($date_reminder) {
-        $this->date_reminder = $date_reminder;
-    }
-
-    function setDate_add($date_add) {
-        $this->date_add = $date_add;
-    }
-
-    function setDate_edit($date_edit) {
-        $this->date_edit = $date_edit;
+    function setDateEdit(\DateTime $dateEdit) {
+        $this->dateEdit = $dateEdit;
     }
 
     function setDescription($description) {
         $this->description = $description;
-    }
-
-    function setIp($ip) {
-        $this->ip = $ip;
     }
 
 }

@@ -51,7 +51,6 @@ class Routes {
         })->where('name', '[0-9a-z]+');
     }
 
-
     public static function get($uri, $action = null) {
         return new Route('get', $uri, $action);
     }

@@ -12,39 +12,39 @@ class Gallery extends Controller {
 
     public function vehicle_gallery_add($vehicle_id) {
         if (!Auth::isAuth()) {
-            redirect(genereteURL('user_login'));
+            $this->redirect(genereteURL('user_login'));
         }
         $vehicle = new Vehicle($vehicle_id);
         if ($vehicle->getUser_id() <> Auth::getUserID()) {
-            redirect(genereteURL('garage'));
+            $this->redirect(genereteURL('garage'));
         }
 
         $array = array();
-        $info = $this->_session->get('vehicle_gallery_add_error');
-        $this->_session->put('vehicle_gallery_add_error', '');
+        $info = $this->session->get('vehicle_gallery_add_error');
+        $this->session->put('vehicle_gallery_add_error', '');
         if (!empty($info)) {
             $array += unserialize($info);
         }
 
-        $repository = new RepositoryVehicleGallery($this->_database);
-        $photos = $repository->criteria(array('orderby' => array(VehicleGallery::$_table_name . '.id', 'DESC'), 'where' => array(VehicleGallery::$_table_name . '.vehicle_id', $vehicle_id)))->getAll();
+        $repository = new RepositoryVehicleGallery($this->database);
+        $photos = $repository->criteria(array('orderby' => array(VehicleGallery::$tableName . '.id', 'DESC'), 'where' => array(VehicleGallery::$tableName . '.vehicle_id', $vehicle_id)))->getAll();
 
         $array['total_photos'] = $repository->getCount();
         $array['photos'] = $photos;
         $array['vehicle'] = $vehicle;
 
-        $this->_view->jsPush('js/dropzone.js', true);
-        $this->_view->jsPush('js/del_photo.js', true);
-        $this->_view->cssPush('css/dropzone.css', true);
-        $this->_view->setTitle(trans('gallery') . ' - ' . $vehicle->getBrandModel());
-        $this->_view->header('style5');
-        $this->_view->renderView('home/garage/gallery', $array);
-        $this->_view->footer();
+        $this->view->jsPush('js/dropzone.js', true);
+        $this->view->jsPush('js/del_photo.js', true);
+        $this->view->cssPush('css/dropzone.css', true);
+        $this->view->setTitle(trans('gallery') . ' - ' . $vehicle->getBrandModel());
+        $this->view->header('style5');
+        $this->view->renderView('home/garage/gallery', $array);
+        $this->view->footer();
     }
 
     public function photo_post() {
         if (!Auth::isAuth()) {
-            redirect(genereteURL('user_login'));
+            $this->redirect(genereteURL('user_login'));
         }
         if (!isset($_POST['id']) || intval(abs($_POST['id'])) == 0) {
             header("HTTP/1.0 400 Bad Request");
@@ -113,7 +113,7 @@ class Gallery extends Controller {
 
     public function photo_delete() {
         if (!Auth::isAuth()) {
-            redirect(genereteURL('user_login'));
+            $this->redirect(genereteURL('user_login'));
         }
         if (!isset($_POST['id']) || intval(abs($_POST['id'])) == 0) {
             header("HTTP/1.0 400 Bad Request");
@@ -122,7 +122,7 @@ class Gallery extends Controller {
 
         $photo = new VehicleGallery(intval(abs($_POST['id'])));
         if ($photo->getID() == 0) {
-            exit;
+            die(json_encode(array('brak id!')));
         }
 
         $vehicle = new Vehicle($photo->getVehicle_id());

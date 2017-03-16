@@ -6,14 +6,14 @@ use PioCMS\Models\User;
 
 class RepositoryUsers extends Repository {
 
-    protected $table_name;
-    protected $default_column;
+    protected $tableName;
+    protected $defaultColumn;
     protected $model = 'PioCMS\Models\User';
 
-    public function __construct($_database) {
-        parent::__construct($_database);
-        $this->table_name = User::$_table_name;
-        $this->default_column = User::$_primary;
+    public function __construct($database) {
+        parent::__construct($database);
+        $this->tableName = User::$tableName;
+        $this->defaultColumn = User::$primary;
     }
 
 }

@@ -1,0 +1,7 @@
+/nbproject
+.env
+/cache/
+/sessions/
+/uploads/
+/vendor/
+/composer.lock

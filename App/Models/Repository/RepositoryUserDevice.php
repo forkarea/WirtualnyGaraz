@@ -6,14 +6,14 @@ use PioCMS\Models\UserDevice;
 
 class RepositoryUserDevice extends Repository {
 
-    protected $table_name;
-    protected $default_column;
+    protected $tableName;
+    protected $defaultColumn;
     protected $model = 'PioCMS\Models\UserDevice';
 
     public function __construct($_database) {
         parent::__construct($_database);
-        $this->table_name = UserDevice::$_table_name;
-        $this->default_column = UserDevice::$_primary;
+        $this->tableName = UserDevice::$tableName;
+        $this->defaultColumn = UserDevice::$primary;
     }
 
 }

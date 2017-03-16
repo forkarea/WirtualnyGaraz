@@ -2,43 +2,80 @@
 
 namespace PioCMS\Models;
 
-use PioCMS\Interfaces\ModelInterfaces;
 use PioCMS\Traits\ModelArrayConverter;
 
-class VehicleWorkshop extends Model implements ModelInterfaces {
+class VehicleWorkshop extends Model {
 
-    public static $_table_name = 'vehicle_workshop';
-    public static $_primary = 'id';
-    private $id;
-    private $title = '';
-    private $alias = '';
-    private $image = '';
-    private $short_text = '';
-    private $text = '';
-    private $country = '';
-    private $city = '';
-    private $street = '';
-    private $phone = '';
-    private $website = '';
-    private $mail = '';
-    private $location_latitude = '';
-    private $location_longtude = '';
-    private $date_add = '';
-    private $last_modify = '';
-    private $views = '';
-    private $promo = '';
-    private $st = '0';
+    // status
+    const STATUS_WAITING = 0;
+    const STATUS_ACTIVE = 1;
+
+    public static $tableName = 'vehicle_workshop';
+    public static $primary = 'id';
+
+    /** @var string */
+    private $title;
+
+    /** @var string */
+    private $alias;
+
+    /** @var string */
+    private $image;
+
+    /** @var string */
+    private $short_text;
+
+    /** @var string */
+    private $text;
+
+    /** @var string */
+    private $country;
+
+    /** @var string */
+    private $city;
+
+    /** @var string */
+    private $street;
+
+    /** @var string */
+    private $phone;
+
+    /** @var string */
+    private $website;
+
+    /** @var string */
+    private $mail;
+
+    /** @var double */
+    private $locationLatitude;
+
+    /** @var double */
+    private $locationLongtude;
+
+    /** @var \DateTime */
+    private $dateAdd;
+
+    /** @var \DateTime */
+    private $lastModify;
+
+    /** @var int */
+    private $views;
+
+    /** @var int */
+    private $promo;
+
+    /** @var int */
+    private $st;
 
     use ModelArrayConverter;
 
     public function __construct($id = null) {
-        $this->_primary = self::$_primary;
-        $this->_table_name = self::$_table_name;
         parent::__construct($id);
-    }
+        parent::setTableName(self::$tableName);
+        parent::setPrimaryKey(self::$primary);
+        parent::setDateVars(array('dateAdd', 'lastModify'));
 
-    function getId() {
-        return $this->id;
+        $this->setSt(self::STATUS_WAITING);
     }
 
     function getTitle() {
@@ -85,20 +122,20 @@ class VehicleWorkshop extends Model implements ModelInterfaces {
         return $this->mail;
     }
 
-    function getLocation_latitude() {
-        return $this->location_latitude;
+    function getLocationLatitude() {
+        return $this->locationLatitude;
     }
 
-    function getLocation_longtude() {
-        return $this->location_longtude;
+    function getLocationLongtude() {
+        return $this->locationLongtude;
     }
 
-    function getDate_add() {
-        return $this->date_add;
+    function getDateAdd() {
+        return $this->dateAdd;
     }
 
-    function getLast_modify() {
-        return $this->last_modify;
+    function getLastModify() {
+        return $this->lastModify;
     }
 
     function getViews() {
@@ -111,10 +148,6 @@ class VehicleWorkshop extends Model implements ModelInterfaces {
 
     function getSt() {
         return $this->st;
-    }
-
-    function setId($id) {
-        $this->id = $id;
     }
 
     function setTitle($title) {
@@ -161,20 +194,20 @@ class VehicleWorkshop extends Model implements ModelInterfaces {
         $this->mail = $mail;
     }
 
-    function setLocation_latitude($location_latitude) {
-        $this->location_latitude = $location_latitude;
+    function setLocationLatitude($locationLatitude) {
+        $this->locationLatitude = $locationLatitude;
     }
 
-    function setLocation_longtude($location_longtude) {
-        $this->location_longtude = $location_longtude;
+    function setLocationLongtude($locationLongtude) {
+        $this->locationLongtude = $locationLongtude;
     }
 
-    function setDate_add($date_add) {
-        $this->date_add = $date_add;
+    function setDateAdd(\DateTime $dateAdd) {
+        $this->dateAdd = $dateAdd;
     }
 
-    function setLast_modify($last_modify) {
-        $this->last_modify = $last_modify;
+    function setLastModify(\DateTime $lastModify) {
+        $this->lastModify = $lastModify;
     }
 
     function setViews($views) {

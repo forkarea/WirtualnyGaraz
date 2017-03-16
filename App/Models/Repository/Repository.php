@@ -6,16 +6,22 @@ use PioCMS\Interfaces\ModelRepositoryInterfaces;
 
 abstract class Repository implements ModelRepositoryInterfaces {
 
-    protected $_database;
-    private $_count = 0;
-    private $_totalPages = 0;
-    private $_criteria = array();
-    private $_joins = array();
-    private $_columns = array();
-    private $_data = array();
+    protected $database;
+    private $count;
+    private $totalPages;
+    private $criteria;
+    private $joins;
+    private $columns;
+    private $data;
 
     public function __construct($_database) {
-        $this->_database = $_database;
+        $this->database = $_database;
+        $this->count = 0;
+        $this->totalPages = 0;
+        $this->criteria = array();
+        $this->joins = array();
+        $this->columns = array();
+        $this->data = array();
     }
 
     /**
@@ -26,15 +32,15 @@ abstract class Repository implements ModelRepositoryInterfaces {
     private $paginate = array();
 
     public function getTotalPages() {
-        return $this->_totalPages;
+        return $this->totalPages;
     }
 
     public function getData() {
-        return $this->_data;
+        return $this->data;
     }
 
     public function criteria(array $_criteria) {
-        $this->_criteria = $_criteria;
+        $this->criteria = $_criteria;
         return $this;
     }
 
@@ -55,40 +61,38 @@ abstract class Repository implements ModelRepositoryInterfaces {
     }
 
     public function loadFromArray() {
-        return $this->convertToArray($this->_data);
+        return $this->convertToArray($this->data);
     }
 
     public function checkCritera() {
-        if (!is_null($this->_criteria)) {
-            foreach ($this->_criteria as $key => $value) {
+        if (!is_null($this->criteria)) {
+            foreach ($this->criteria as $key => $value) {
                 switch ($key) {
                     case "where":
                         if (count($value) == 2) {
-                            $this->_database->where($value[0], $value[1]);
+                            $this->database->where($value[0], $value[1]);
                         }
                         break;
 
                     case "orderby":
                         if (count($value) == 2) {
-                            $this->_database->orderBy($value[0], $value[1]);
+                            $this->database->orderBy($value[0], $value[1]);
                         }
                         break;
 
                     case "primaryDesc":
-                        $this->_database->orderBy($this->default_column, 'DESC');
+                        $this->database->orderBy($this->defaultColumn, 'DESC');
                         break;
 
                     case "primaryAsc":
-                        $this->_database->orderBy($this->default_column, 'ASC');
+                        $this->database->orderBy($this->defaultColumn, 'ASC');
                         break;
-						
+
                     case "group":
-						if (count($value) > 0) {
-                        $this->_database->groupBy($value[0]);
-						}
+                        if (count($value) > 0) {
+                            $this->database->groupBy($value[0]);
+                        }
                         break;
-						
-						
                 }
             }
         }
@@ -96,9 +100,9 @@ abstract class Repository implements ModelRepositoryInterfaces {
     }
 
     public function checkJoin() {
-        if (!is_null($this->_joins)) {
-            foreach ($this->_joins as $key => $value) {
-                $this->_database->join($value['joinTable'], $value['joinCondition'], $value['joinType']);
+        if (!is_null($this->joins)) {
+            foreach ($this->joins as $key => $value) {
+                $this->database->join($value['joinTable'], $value['joinCondition'], $value['joinType']);
             }
         }
     }
@@ -109,23 +113,23 @@ abstract class Repository implements ModelRepositoryInterfaces {
     }
 
     public function count() {
-        if (is_null($this->table_name) || is_null($this->default_column)) {
+        if (is_null($this->tableName) || is_null($this->defaultColumn)) {
             throw new \Exception(\PioCMS\Engine\Language::trans('table_name'));
         }
         $this->checkCritera();
-		$column_name = (isset($this->_criteria['group'])) ? 'DISTINCT ' : '';
-		$column_name = $column_name.$this->table_name.'.'.$this->default_column;
-        $this->_count = $this->_database->getValue($this->table_name, "count($column_name)");
+        $column_name = (isset($this->criteria['group'])) ? 'DISTINCT ' : '';
+        $column_name = $column_name . $this->tableName . '.' . $this->defaultColumn;
+        $this->count = $this->database->getValue($this->tableName, "count($column_name)");
         return $this;
     }
 
     public function getCount() {
-        return $this->_count;
+        return $this->count;
     }
 
     public function findByID($id) {
-        if (!is_null($this->default_column)) {
-            return $this->findByParams($this->default_column, $id);
+        if (!is_null($this->defaultColumn)) {
+            return $this->findByParams($this->defaultColumn, $id);
         }
         return new \stdClass();
     }
@@ -135,26 +139,26 @@ abstract class Repository implements ModelRepositoryInterfaces {
             $params = array($params);
             $value = array($value);
         }
-        if (!is_null($this->table_name) && !empty($params) && !empty($value) && !is_null($this->model) && class_exists($this->model)) {
+        if (!is_null($this->tableName) && !empty($params) && !empty($value) && !is_null($this->model) && class_exists($this->model)) {
             foreach ($params as $k => $v) {
-                $this->_database->where($params[$k], $value[$k]);
+                $this->database->where($params[$k], $value[$k]);
             }
-            $record = $this->_database->getOne($this->table_name);
+            $record = $this->database->getOne($this->tableName);
             $object = new $this->model();
             $object->loadFromArray($record);
             return $object;
         }
         return new \stdClass();
     }
-
+    
     public function getAll() {
-        if (!is_null($this->table_name) && !is_null($this->default_column) && !is_null($this->model) && class_exists($this->model)) {
+        if (!is_null($this->tableName) && !is_null($this->defaultColumn) && !is_null($this->model) && class_exists($this->model)) {
             $this->checkCritera();
             $columns = '*';
-            if (count($this->_columns) > 0) {
-                $columns = $this->table_name . '.*, ' . implode(', ', $this->_columns);
+            if (count($this->columns) > 0) {
+                $columns = $this->tableName . '.*, ' . implode(', ', $this->columns);
             }
-            $records = $this->_database->get($this->table_name, (empty($this->paginate) ? NULL : $this->paginate), $columns);
+            $records = $this->database->get($this->tableName, (empty($this->paginate) ? NULL : $this->paginate), $columns);
             $objects = array();
             foreach ($records as $record) {
                 $object = new $this->model();
@@ -162,15 +166,16 @@ abstract class Repository implements ModelRepositoryInterfaces {
                 $this->loadJoins($object, $record);
                 $objects[] = $object;
             }
-            $this->_data = $objects;
+            $this->data = $objects;
             return $this;
         }
+
         throw new \Exception(sprintf(\PioCMS\Engine\Language::trans('model_not_exist'), $this->model));
     }
 
     private function loadJoins(&$object, $record) {
-        if (!is_null($this->_joins)) {
-            foreach ($this->_joins as $key => $value) {
+        if (!is_null($this->joins)) {
+            foreach ($this->joins as $key => $value) {
                 $helper = new $value['model'];
                 $array = array();
                 foreach ($value['conditions'] as $k => $v) {
@@ -184,7 +189,7 @@ abstract class Repository implements ModelRepositoryInterfaces {
     }
 
     public function paginate($page, $limit = 20) {
-        if (is_null($this->table_name)) {
+        if (is_null($this->tableName)) {
             throw new \Exception(\PioCMS\Engine\Language::trans('table_name'));
         }
 
@@ -192,16 +197,16 @@ abstract class Repository implements ModelRepositoryInterfaces {
         $offset = $limit * ($page - 1);
         $this->paginate = array($offset, $limit);
 
-        $this->_totalPages = ceil($this->_count / $limit);
+        $this->totalPages = ceil($this->count / $limit);
         return $this;
     }
 
     public function insert(array $data) {
-        return $this->_database->insert($this->table_name, $data);
+        return $this->database->insert($this->tableName, $data);
     }
 
     public function update(array $data) {
-        return $this->_database->update($this->table_name, $data);
+        return $this->database->update($this->tableName, $data);
     }
 
     public function join($array) {
@@ -209,11 +214,11 @@ abstract class Repository implements ModelRepositoryInterfaces {
             $array = array($array);
         }
         foreach ($array as $key => $val) {
-            $this->_joins[] = array('joinTable' => $val['joinTable'], 'joinCondition' => $val['joinCondition'], 'joinType' => $val['joinType'], 'conditions' => $val['conditions'], 'model' => $val['model'], 'shortName' => $val['shortName']);
+            $this->joins[] = array('joinTable' => $val['joinTable'], 'joinCondition' => $val['joinCondition'], 'joinType' => $val['joinType'], 'conditions' => $val['conditions'], 'model' => $val['model'], 'shortName' => $val['shortName']);
             if (empty($val['columns'])) {
-                $this->_columns[] = $val['joinTable'] . '.*';
+                $this->columns[] = $val['joinTable'] . '.*';
             } else {
-                $this->_columns[] = implode(',', $val['columns']);
+                $this->columns[] = implode(',', $val['columns']);
             }
         }
 
